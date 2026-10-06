@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "modern-standby-auditor schema 1",
+  "type": "object",
+  "required": ["schema_version", "application", "version", "system_context", "capabilities", "current_snapshot", "wake_metadata", "historical_evidence", "limitations", "findings"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "application": {"const": "modern-standby-auditor"},
+    "version": {"type": "string"},
+    "system_context": {"$ref": "#/$defs/evidenceArray"},
+    "capabilities": {"$ref": "#/$defs/evidenceArray"},
+    "current_snapshot": {"$ref": "#/$defs/evidenceArray"},
+    "wake_metadata": {"$ref": "#/$defs/evidenceArray"},
+    "historical_evidence": {"$ref": "#/$defs/evidenceArray"},
+    "limitations": {"$ref": "#/$defs/evidenceArray"},
+    "findings": {"type": "array", "items": {"type": "string"}}
+  },
+  "$defs": {
+    "evidenceArray": {"type": "array", "items": {"$ref": "#/$defs/evidence"}},
+    "evidence": {
+      "type": "object",
+      "required": ["name", "status", "value", "explanation", "win32_error"],
+      "properties": {
+        "name": {"type": "string"},
+        "status": {"enum": ["supported", "unsupported", "unavailable", "access_denied", "not_applicable"]},
+        "value": {"type": ["string", "null"]},
+        "explanation": {"type": "string"},
+        "win32_error": {"type": "integer", "minimum": 0, "maximum": 4294967295}
+      }
+    }
+  }
+}
